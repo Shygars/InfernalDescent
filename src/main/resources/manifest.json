@@ -1,0 +1,18 @@
+{
+  "Group": "me.shygars",
+  "Name": "Infernal Descent",
+  "Version": "1.0.0",
+  "Description": "Plugin for the Infernal Descent Experience.",
+  "Authors": [
+    {
+      "Name": "Shygars"
+    }
+  ],
+  "Website": "",
+  "ServerVersion": "2026.03.26-89796e57b",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisableByDefault": false,
+  "Main": "me.shygars.InfernalDescent",
+  "IncludesAssetPack": true
+}
