@@ -8,7 +8,6 @@ import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.packets.interface_.HudComponent;
 import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.asset.type.gameplay.RespawnConfig;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.data.PlayerRespawnPointData;
@@ -24,10 +23,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import me.shygars.InfernalDescent;
 import me.shygars.components.PlayerClass;
-import me.shygars.components.SoulForm;
 import me.shygars.game.ItemRewards;
 import me.shygars.game.classes.ClassItemsDistribution;
-import me.shygars.game.hud.StatsUpHUD;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

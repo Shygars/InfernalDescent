@@ -42,7 +42,6 @@ public class ClassCancelInteraction extends SimpleInstantInteraction {
         Ref<EntityStore> ref = interactionContext.getEntity();
         Store<EntityStore> store = commandBuffer.getExternalData().getStore();
         Player player = commandBuffer.getComponent(ref, Player.getComponentType());
-        PlayerRef playerRef = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
         if (player == null) {
             interactionContext.getState().state = InteractionState.Failed;
             LOGGER.atInfo().log("Player is null");

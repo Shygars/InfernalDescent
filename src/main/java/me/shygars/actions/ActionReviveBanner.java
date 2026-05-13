@@ -68,7 +68,6 @@ public class ActionReviveBanner extends ActionBase {
                 Ref<EntityStore> refPlayer = playerRef.getReference();
                 if (refPlayer != null) {
                     Store<EntityStore> storePlayer = refPlayer.getStore();
-                    World world = storePlayer.getExternalData().getWorld();
                     if (Objects.requireNonNull(storePlayer.getComponent(refPlayer, InfernalDescent.instance.getPlayerClassComponent())).getCurrentClass() == this.reviveClass) {
                         Vector3d bannerPos = Objects.requireNonNull(store.getComponent(ref, TransformComponent.getComponentType())).getPosition();
                         Vector3f bannerRot = Objects.requireNonNull(store.getComponent(ref, TransformComponent.getComponentType())).getRotation();
