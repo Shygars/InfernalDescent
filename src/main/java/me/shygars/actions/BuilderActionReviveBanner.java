@@ -1,4 +1,4 @@
-package me.shygars.actions.manon;
+package me.shygars.actions;
 
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
@@ -15,12 +15,15 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
-public class BuilderActionFinalWaveRevive extends BuilderActionBase {
+public class BuilderActionReviveBanner extends BuilderActionBase {
+    @Nonnull
+    protected final IntHolder reviveClass = new IntHolder();
+    protected final StringHolder targetSlot = new StringHolder();
 
     @NullableDecl
     @Override
     public String getShortDescription() {
-        return "Revive everyone after beating the layer's boss.";
+        return "Revive the targeted class player using a Revive Item";
     }
 
     @NullableDecl
@@ -32,7 +35,7 @@ public class BuilderActionFinalWaveRevive extends BuilderActionBase {
     @NullableDecl
     @Override
     public Action build(BuilderSupport support) {
-        return new ActionFinalWaveRevive(this);
+        return new ActionReviveBanner(this, support);
     }
 
     @NullableDecl
@@ -42,7 +45,18 @@ public class BuilderActionFinalWaveRevive extends BuilderActionBase {
     }
 
     @Nonnull
-    public BuilderActionFinalWaveRevive readConfig(@Nonnull JsonElement data) {
+    public BuilderActionReviveBanner readConfig(@Nonnull JsonElement data) {
+        this.getInt(data, "ClassId", this.reviveClass, 4, IntSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "The Class Id", null);
+        this.getString(data, "TargetSlot", this.targetSlot, "LockedTarget", StringNotEmptyValidator.get(), BuilderDescriptorState.Stable, "The target slot to check", null);
+        this.requireInstructionType(EnumSet.of(InstructionType.Interaction));
         return this;
+    }
+
+    public int getReviveClass(@Nonnull BuilderSupport support) {
+        return this.reviveClass.get(support.getExecutionContext());
+    }
+
+    public int getTargetSlot(@Nonnull BuilderSupport builder) {
+        return builder.getTargetSlot(this.targetSlot.get(builder.getExecutionContext()));
     }
 }

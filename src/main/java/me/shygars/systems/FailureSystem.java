@@ -13,17 +13,25 @@ import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import me.shygars.InfernalDescent;
+import me.shygars.components.PlayerClass;
 import me.shygars.components.ReturningSurface;
+import me.shygars.game.ItemRewards;
+import me.shygars.game.classes.ClassItemsDistribution;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class FailureSystem extends EntityTickingSystem<EntityStore> {
@@ -37,11 +45,11 @@ public class FailureSystem extends EntityTickingSystem<EntityStore> {
         String worldName = world.getName();
         if (!worldName.equals("default")) {
             if (numberOfPlayers == numberOfDeadPlayers) {
-                //If Solo
+                // If Solo
                 if (numberOfPlayers == 1) {
                     EventTitleUtil.showEventTitleToUniverse(Message.raw("You're Dead!"), Message.raw("Returning to the surface..."), false, null, 5, 1, 1);
                 }
-                //If Multi
+                // If Multi
                 else {
                     EventTitleUtil.showEventTitleToUniverse(Message.raw("Everyone is Dead!"), Message.raw("Returning to the surface..."), false, null, 5, 1, 1);
                 }
@@ -49,6 +57,7 @@ public class FailureSystem extends EntityTickingSystem<EntityStore> {
                 Teleport teleportComponent = Teleport.createForPlayer(Universe.get().getWorld("default"), new Transform(new Vector3d(0, 80, 0), new Vector3f(0, 0)));
                 commandBuffer.putComponent(ref, InfernalDescent.instance.getReturningSurface(), new ReturningSurface());
                 HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> {
+                    // Teleport
                     commandBuffer.removeComponent(ref, InfernalDescent.instance.getReturningSurface());
                     commandBuffer.addComponent(ref, Teleport.getComponentType(), teleportComponent);
                 }, 7L, TimeUnit.SECONDS);

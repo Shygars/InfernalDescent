@@ -1,0 +1,114 @@
+Group {
+  LayoutMode: CenterMiddle;
+  Background: "StatsUp/stats_up_container.png";
+  Anchor: (Width: 400, Height: 112, Left: 64, Bottom: 20);
+  Group #LeftBars {
+    LayoutMode: Bottom;
+    Anchor: (Width: 188);
+    Group #Health {
+      LayoutMode: Center;
+      Padding: (Horizontal: 6, Top: 12, Bottom: 6);
+      Group #HealthIconGroup {
+        LayoutMode: Top;
+        Anchor: (Right: 12);
+        AssetImage #HealthIcon {
+          Anchor: (Width: 32, Height: 32);
+          AssetPath: "UI/Custom/StatsUp/health_stats_up_icon.png";
+        }
+      }
+      Group #HealthBarBackground {
+        Anchor: (Width: 131, Height: 12);
+        Background: "StatsUp/stats_up_bar_background.png";
+        ProgressBar #HealthBar {
+          Anchor: (Width: 131, Height: 12);
+          BarTexturePath: "StatsUp/health_stats_up_bar.png";
+        }
+      }
+    }
+    Group #Resistance {
+      LayoutMode: Center;
+      Padding: (Horizontal: 6, Top: 6, Bottom: 12);
+      Group #ResistanceIconGroup {
+        LayoutMode: Top;
+        Anchor: (Right: 12);
+        AssetImage #ResistanceIcon {
+          Anchor: (Width: 32, Height: 32);
+          AssetPath: "UI/Custom/StatsUp/resistance_stats_up_icon.png";
+        }
+      }
+      Group #ResistanceBarBackground {
+        Anchor: (Width: 131, Height: 12);
+        Background: "StatsUp/stats_up_bar_background.png";
+        ProgressBar #ResistanceBar {
+          Anchor: (Width: 131, Height: 12);
+          BarTexturePath: "StatsUp/resistance_stats_up_bar.png";
+        }
+      }
+    }
+    Group #NegativeResistance {
+      LayoutMode: Center;
+      Padding: (Horizontal: 6, Top: 6, Bottom: 12);
+      Visible: false;
+      Group #NegativeResistanceIconGroup {
+        LayoutMode: Top;
+        Anchor: (Right: 12);
+        AssetImage #NegativeResistanceIcon {
+          Anchor: (Width: 32, Height: 32);
+          AssetPath: "UI/Custom/StatsUp/negative_resistance_stats_up_icon.png";
+        }
+      }
+      Group #NegativeResistanceBarBackground {
+        Anchor: (Width: 131, Height: 12);
+        Background: "StatsUp/stats_up_bar_background.png";
+        ProgressBar #NegativeResistanceBar {
+          Anchor: (Width: 131, Height: 12);
+          BarTexturePath: "StatsUp/negative_resistance_stats_up_bar.png";
+        }
+      }
+    }
+  }
+  Group #RightBars {
+    LayoutMode: Bottom;
+    Anchor: (Width: 188);
+    Group #Strength {
+      LayoutMode: Center;
+      Padding: (Horizontal: 6, Top: 12, Bottom: 6);
+      Group #StrengthIconGroup {
+        LayoutMode: Top;
+        Anchor: (Right: 12);
+        AssetImage #StrengthIcon {
+          Anchor: (Width: 32, Height: 32);
+          AssetPath: "UI/Custom/StatsUp/strength_stats_up_icon.png";
+        }
+      }
+      Group #StrengthBarBackground {
+        Anchor: (Width: 131, Height: 12);
+        Background: "StatsUp/stats_up_bar_background.png";
+        ProgressBar #StrengthBar {
+          Anchor: (Width: 131, Height: 12);
+          BarTexturePath: "StatsUp/strength_stats_up_bar.png";
+        }
+      }
+    }
+    Group #Stamina {
+      LayoutMode: Center;
+      Padding: (Horizontal: 6, Top: 6, Bottom: 12);
+      Group #StaminaIconGroup {
+        LayoutMode: Top;
+        Anchor: (Right: 12);
+        AssetImage #StaminaIcon {
+          Anchor: (Width: 32, Height: 32);
+          AssetPath: "UI/Custom/StatsUp/stamina_stats_up_icon.png";
+        }
+      }
+      Group #StaminaBarBackground {
+        Anchor: (Width: 131, Height: 12);
+        Background: "StatsUp/stats_up_bar_background.png";
+        ProgressBar #StaminaBar {
+          Anchor: (Width: 131, Height: 12);
+          BarTexturePath: "StatsUp/stamina_stats_up_bar.png";
+        }
+      }
+    }
+  }
+}

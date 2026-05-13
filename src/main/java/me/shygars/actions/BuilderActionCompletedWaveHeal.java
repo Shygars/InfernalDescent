@@ -1,14 +1,12 @@
-package me.shygars.actions.manon;
+package me.shygars.actions;
 
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.holder.AssetHolder;
-import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleValidator;
 import com.hypixel.hytale.server.npc.asset.builder.validators.asset.EntityStatExistsValidator;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
-import com.hypixel.hytale.server.npc.corecomponents.entity.builders.BuilderActionSetStat;
 import com.hypixel.hytale.server.npc.instructions.Action;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 

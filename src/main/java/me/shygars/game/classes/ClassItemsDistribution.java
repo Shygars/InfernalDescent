@@ -4,7 +4,6 @@ import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.packets.inventory.SetActiveSlot;
-import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -19,20 +18,20 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class ClassItemsDistribution {
     protected static final ComponentType<EntityStore, EntityStatMap> STAT_MAP_COMPONENT_TYPE = EntityStatMap.getComponentType();
 
     public static ItemContainer getItemContainer(@Nonnull ComponentType<EntityStore, ? extends InventoryComponent> invComp, @Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
         var inventory = store.getComponent(ref, invComp);
+        InventoryComponent.getCombined(store, ref, invComp, invComp);
         if (inventory != null) {
             return inventory.getInventory();
         }
         else return null;
     }
 
-    public static void removeClassItems(ItemContainer hotbarContainer, ItemContainer armorContainer, ItemContainer utilityContainer, Player player, PlayerRef playerRef) {
+    public static void removeClassItems(ItemContainer hotbarContainer, ItemContainer armorContainer, ItemContainer utilityContainer) {
         // Remove any item in the corresponding slots
         for (int i = 0; i <= 1; i++) {
             hotbarContainer.removeItemStackFromSlot((short) i);
@@ -80,7 +79,7 @@ public class ClassItemsDistribution {
         ItemContainer hotbarContainer = getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-1)), ref, store);
         ItemContainer armorContainer = getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-3)), ref, store);
         ItemContainer utilityContainer = getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-5)), ref, store);
-        removeClassItems(hotbarContainer, armorContainer, utilityContainer, player, playerRef);
+        removeClassItems(hotbarContainer, armorContainer, utilityContainer);
 
         assert hotbarContainer != null;
         assert armorContainer != null;
@@ -114,7 +113,7 @@ public class ClassItemsDistribution {
         world.execute(() ->{
             EntityStatMap entityStatMapComponent = store.getComponent(ref, STAT_MAP_COMPONENT_TYPE);
             assert entityStatMapComponent != null;
-            entityStatMapComponent.addStatValue(EntityStatType.getAssetMap().getIndex("Health"), 200);
+            entityStatMapComponent.addStatValue(EntityStatType.getAssetMap().getIndex("Health"), 100);
         });
     }
 
@@ -147,7 +146,7 @@ public class ClassItemsDistribution {
         }
         else if (playerClass.getCurrentClass() == 1) {
             hotbarContainer.addItemStackToSlot((short) 2, new ItemStack("Potion_Health", quantity));
-            hotbarContainer.addItemStackToSlot((short) 3, new ItemStack("Potion_Stamina", 1));
+            hotbarContainer.addItemStackToSlot((short) 3, new ItemStack("Potion_Resistance", 1));
         }
         else if (playerClass.getCurrentClass() == 2) {
             hotbarContainer.addItemStackToSlot((short) 2, new ItemStack("Potion_Health", quantity));

@@ -26,8 +26,6 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class SoulFormSystem extends RefChangeSystem<EntityStore, SoulForm> {
-    protected static final ComponentType<EntityStore, EntityStatMap> STAT_MAP_COMPONENT_TYPE = EntityStatMap.getComponentType();
-
     @Nonnull
     @Override
     public ComponentType<EntityStore, SoulForm> componentType() {
@@ -59,7 +57,7 @@ public class SoulFormSystem extends RefChangeSystem<EntityStore, SoulForm> {
             ItemContainer hotbarContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-1)), ref, store);
             ItemContainer armorContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-3)), ref, store);
             ItemContainer utilityContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-5)), ref, store);
-            ClassItemsDistribution.removeClassItems(hotbarContainer, armorContainer, utilityContainer, player, playerRef);
+            ClassItemsDistribution.removeClassItems(hotbarContainer, armorContainer, utilityContainer);
         }
     }
 

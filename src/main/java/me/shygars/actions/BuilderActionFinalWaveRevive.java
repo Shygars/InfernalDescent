@@ -1,26 +1,20 @@
-package me.shygars.actions.manon;
+package me.shygars.actions;
 
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
-import com.hypixel.hytale.server.npc.asset.builder.InstructionType;
-import com.hypixel.hytale.server.npc.asset.builder.holder.StringHolder;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import me.shygars.actions.zolahva.ActionSetForcedWeather;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 import javax.annotation.Nonnull;
-import java.util.EnumSet;
 
-public class BuilderActionSetForcedWeather extends BuilderActionBase {
-    @Nonnull
-    protected final StringHolder weatherId = new StringHolder();
+public class BuilderActionFinalWaveRevive extends BuilderActionBase {
 
     @NullableDecl
     @Override
     public String getShortDescription() {
-        return "Set the weather in the current world";
+        return "Revive everyone after beating the layer's boss.";
     }
 
     @NullableDecl
@@ -32,7 +26,7 @@ public class BuilderActionSetForcedWeather extends BuilderActionBase {
     @NullableDecl
     @Override
     public Action build(BuilderSupport support) {
-        return new ActionSetForcedWeather(this, support);
+        return new ActionFinalWaveRevive(this);
     }
 
     @NullableDecl
@@ -42,12 +36,7 @@ public class BuilderActionSetForcedWeather extends BuilderActionBase {
     }
 
     @Nonnull
-    public BuilderActionSetForcedWeather readConfig(@Nonnull JsonElement data) {
-        this.getString(data, "Weather Id", this.weatherId, null, null, BuilderDescriptorState.Stable, "The Id of the weather to set", null);
+    public BuilderActionFinalWaveRevive readConfig(@Nonnull JsonElement data) {
         return this;
-    }
-
-    public String getWeatherId(@Nonnull BuilderSupport support) {
-        return this.weatherId.get(support.getExecutionContext());
     }
 }

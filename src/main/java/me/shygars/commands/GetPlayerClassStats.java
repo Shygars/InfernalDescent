@@ -11,14 +11,14 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.shygars.InfernalDescent;
 import me.shygars.components.PlayerClass;
-import me.shygars.game.classes.ClassItemsDistribution;
+import me.shygars.game.classes.PlayerClassNames;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-public class ResetPlayerClass extends AbstractTargetPlayerCommand {
+public class GetPlayerClassStats extends AbstractTargetPlayerCommand {
 
-    public ResetPlayerClass() {
-        super("resetclass", "Reset a player's class upgrades.");
+    public GetPlayerClassStats() {
+        super("getclassstats", "Get a player's class stats modifiers.");
     }
 
     @Override
@@ -38,11 +38,14 @@ public class ResetPlayerClass extends AbstractTargetPlayerCommand {
         assert player != null;
         assert targetPlayer != null;
         if (playerClass != null) {
-            PlayerClass newPlayerClass = new PlayerClass(playerClass.getCurrentClass());
-            store.replaceComponent(targetRef, InfernalDescent.instance.getPlayerClassComponent(), newPlayerClass);
-            ClassItemsDistribution.giveClassItems(player);
+            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " stats:"));
+            player.sendMessage(Message.raw("Max Health - Index: " + playerClass.getHealthStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.HEALTH_STAT_UP)));
+            player.sendMessage(Message.raw("Strength - Index: " + playerClass.getStrengthStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.STRENGTH_STAT_UP)));
+            player.sendMessage(Message.raw("Resistance - Index: " + playerClass.getResistanceStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.RESISTANCE_STAT_UP)));
+            player.sendMessage(Message.raw("Max Stamina - Index: " + playerClass.getStaminaStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.STAMINA_STAT_UP)));
         }
-        else player.sendMessage(Message.raw("Player has no Class"));
-        player.sendMessage(Message.raw("Class of " + targetPlayer.getDisplayName() + " reseted"));
+        else {
+            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " do not have a class."));
+        }
     }
 }

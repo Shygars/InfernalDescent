@@ -2,6 +2,7 @@ package me.shygars.interactions;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.math.vector.Vector3d;
@@ -11,6 +12,10 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
+import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
+import com.hypixel.hytale.server.core.modules.entitystats.modifier.Modifier;
+import com.hypixel.hytale.server.core.modules.entitystats.modifier.StaticModifier;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -29,6 +34,9 @@ import java.util.Collection;
 public class NewGameInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<NewGameInteraction> CODEC = BuilderCodec.builder(NewGameInteraction.class, NewGameInteraction::new, SimpleInstantInteraction.CODEC)
             .build();
+
+    protected static final ComponentType<EntityStore, EntityStatMap> STAT_MAP_COMPONENT_TYPE = EntityStatMap.getComponentType();
+
 
     @Override
     protected void firstRun(@Nonnull InteractionType interactionType, @Nonnull InteractionContext interactionContext, @Nonnull CooldownHandler cooldownHandler) {
@@ -67,14 +75,20 @@ public class NewGameInteraction extends SimpleInstantInteraction {
             Ref<EntityStore> refPlayer = playerRef.getReference();
             if (refPlayer != null) {
                 Player player = commandBuffer.getComponent(refPlayer, Player.getComponentType());
-                PlayerClass playerClass = commandBuffer.getComponent(refPlayer, InfernalDescent.instance.getPlayerClassComponent());
                 IsPlayer isPlayer = commandBuffer.getComponent(refPlayer, InfernalDescent.instance.getIsPlayer());
-                if (player != null && playerClass != null && isPlayer != null) {
-                    playerClass.setMainWeaponUpgrade(0);
-                    playerClass.setSecWeaponUpgrade(0);
-                    playerClass.setArmorUpgrade(0);
-                    playerClass.setClass(4);
+                if (player != null && isPlayer != null) {
+                    PlayerClass newPlayerClass = new PlayerClass();
+                    commandBuffer.replaceComponent(refPlayer, InfernalDescent.instance.getPlayerClassComponent(), newPlayerClass);
                     commandBuffer.removeComponent(refPlayer, InfernalDescent.instance.getIsPlayer());
+
+                    // Fully reset stats by removing modifiers
+                    StaticModifier maxHealthModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, 100);
+                    StaticModifier maxStaminaModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, 3);
+                    EntityStatMap entityStatMapComponent = commandBuffer.getComponent(refPlayer, STAT_MAP_COMPONENT_TYPE);
+                    assert entityStatMapComponent != null;
+                    entityStatMapComponent.putModifier(EntityStatType.getAssetMap().getIndex("Health"),"Health", maxHealthModifier);
+                    entityStatMapComponent.putModifier(EntityStatType.getAssetMap().getIndex("Stamina"), "Stamina", maxStaminaModifier);
+
                     ClassItemsDistribution.clearInventory(player);
                 }
                 commandBuffer.addComponent(refPlayer, Teleport.getComponentType(), teleportComponent);

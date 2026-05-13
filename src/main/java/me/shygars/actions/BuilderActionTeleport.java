@@ -1,4 +1,4 @@
-package me.shygars.actions.manon;
+package me.shygars.actions;
 
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.math.vector.Transform;
@@ -7,7 +7,6 @@ import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.npc.asset.builder.Builder;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.InstructionType;
@@ -39,6 +38,8 @@ public class BuilderActionTeleport extends BuilderActionBase {
     protected final StringHolder targetWorld = new StringHolder();
     @Nonnull
     protected final BooleanHolder selfTeleport = new BooleanHolder();
+    @Nonnull
+    protected final BooleanHolder teleportEveryone = new BooleanHolder();
 
     @NullableDecl
     @Override
@@ -74,6 +75,7 @@ public class BuilderActionTeleport extends BuilderActionBase {
         this.getFloat(data, "Roll", this.zRot, 0, null, BuilderDescriptorState.Stable, "Roll", null);
         this.getString(data, "World", this.targetWorld, null, null, BuilderDescriptorState.Stable, "Target world to teleport to.", null);
         this.getBoolean(data, "SelfTeleport", this.selfTeleport, false, BuilderDescriptorState.Stable, "Teleport self or the interactive target.", null);
+        this.getBoolean(data, "TeleportEveryone", this.teleportEveryone, false, BuilderDescriptorState.Stable, "Teleport every player, if so, self teleport is ignored.", null);
         this.requireInstructionType(EnumSet.of(InstructionType.Interaction));
         return this;
     }
@@ -101,7 +103,11 @@ public class BuilderActionTeleport extends BuilderActionBase {
         );
     }
 
-    public boolean selfTeleport(@Nonnull BuilderSupport support) {
+    public boolean getSelfTeleport(@Nonnull BuilderSupport support) {
         return this.selfTeleport.get(support.getExecutionContext());
+    }
+
+    public boolean getTeleportEveryone(@Nonnull BuilderSupport support) {
+        return this.teleportEveryone.get(support.getExecutionContext());
     }
 }

@@ -89,7 +89,7 @@ public class ClassCancelInteraction extends SimpleInstantInteraction {
         ItemContainer hotbarContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-1)), ref, store);
         ItemContainer armorContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-3)), ref, store);
         ItemContainer utilityContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-5)), ref, store);
-        ClassItemsDistribution.removeClassItems(hotbarContainer, armorContainer, utilityContainer, player, playerRef);
+        ClassItemsDistribution.removeClassItems(hotbarContainer, armorContainer, utilityContainer);
         player.sendMessage(Message.raw("Class removed."));
     }
 }

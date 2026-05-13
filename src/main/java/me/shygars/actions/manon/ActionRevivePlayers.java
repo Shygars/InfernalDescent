@@ -20,10 +20,12 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import me.shygars.InfernalDescent;
+import me.shygars.game.classes.ClassItemsDistribution;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.Objects;
 
 public class ActionRevivePlayers extends ActionBase {
     public ActionRevivePlayers(@NonNullDecl BuilderActionRevivePlayers builder) {
@@ -39,16 +41,15 @@ public class ActionRevivePlayers extends ActionBase {
                 Store<EntityStore> storePlayer = refPlayer.getStore();
                 Player player = storePlayer.getComponent(refPlayer, Player.getComponentType());
                 assert player != null;
-                World world = storePlayer.getExternalData().getWorld();
                 storePlayer.tryRemoveComponent(refPlayer, InfernalDescent.instance.getReturningSurface());
                 storePlayer.tryRemoveComponent(refPlayer, InfernalDescent.instance.getSoulFormComponent());
                 SoundUtil.playSoundEvent2d(refPlayer, SoundEvent.getAssetMap().getIndex("SFX_Avatar_Powers_Enable_Local"), SoundCategory.SFX, storePlayer);
                 Vector3d pos = playerRef.getTransform().getPosition();
                 Vector3d particlePos =  new Vector3d(pos.x, pos.y + 1, pos.z);
                 ParticleUtil.spawnParticleEffect("Respawn", particlePos, storePlayer);
-                world.execute(() -> {
-                    ItemStack stack = (new ItemStack("Potion_Health_Big", 1));
-                    player.giveItem(stack, refPlayer, storePlayer);});
+//                store.getExternalData().getWorld().execute(() -> {
+//                    ClassItemsDistribution.giveClassStarterPotions(Objects.requireNonNull(store.getComponent(refPlayer, PlayerRef.getComponentType())));
+//                });
             }
         }
         return true;

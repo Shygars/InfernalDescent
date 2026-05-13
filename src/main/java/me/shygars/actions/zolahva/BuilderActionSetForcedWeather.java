@@ -1,25 +1,23 @@
-package me.shygars.actions.manon;
+package me.shygars.actions.zolahva;
 
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
-import com.hypixel.hytale.server.npc.asset.builder.InstructionType;
 import com.hypixel.hytale.server.npc.asset.builder.holder.StringHolder;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 import javax.annotation.Nonnull;
-import java.util.EnumSet;
 
-public class BuilderActionMessage extends BuilderActionBase {
+public class BuilderActionSetForcedWeather extends BuilderActionBase {
     @Nonnull
-    protected final StringHolder messageString = new StringHolder();
+    protected final StringHolder weatherId = new StringHolder();
 
     @NullableDecl
     @Override
     public String getShortDescription() {
-        return "Send a Message to the player";
+        return "Set the weather in the current world";
     }
 
     @NullableDecl
@@ -31,7 +29,7 @@ public class BuilderActionMessage extends BuilderActionBase {
     @NullableDecl
     @Override
     public Action build(BuilderSupport support) {
-        return new ActionMessage(this, support);
+        return new ActionSetForcedWeather(this, support);
     }
 
     @NullableDecl
@@ -41,13 +39,12 @@ public class BuilderActionMessage extends BuilderActionBase {
     }
 
     @Nonnull
-    public BuilderActionMessage readConfig(@Nonnull JsonElement data) {
-        this.getString(data, "Message", this.messageString, null, null, BuilderDescriptorState.Stable, "The message to send", null);
-        this.requireInstructionType(EnumSet.of(InstructionType.Interaction));
+    public BuilderActionSetForcedWeather readConfig(@Nonnull JsonElement data) {
+        this.getString(data, "Weather Id", this.weatherId, null, null, BuilderDescriptorState.Stable, "The Id of the weather to set", null);
         return this;
     }
 
-    public String getMessageString(@Nonnull BuilderSupport support) {
-        return this.messageString.get(support.getExecutionContext());
+    public String getWeatherId(@Nonnull BuilderSupport support) {
+        return this.weatherId.get(support.getExecutionContext());
     }
 }

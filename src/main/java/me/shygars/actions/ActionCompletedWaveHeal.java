@@ -1,4 +1,5 @@
-package me.shygars.actions.manon;
+package me.shygars.actions;
+
 
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
