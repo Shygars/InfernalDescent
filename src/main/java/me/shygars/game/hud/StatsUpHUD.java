@@ -16,20 +16,22 @@ public class StatsUpHUD extends CustomUIHud {
 
     @Override
     protected void build(@NonNullDecl UICommandBuilder uiCommandBuilder) {
-        uiCommandBuilder.append("StatsUp.ui");
-        uiCommandBuilder.set("#HealthBar.Value", percentage(0, 200, playerClass.getHealthStatsUp()));
-        uiCommandBuilder.set("#StrengthBar.Value", percentage(0, 50, playerClass.getStrengthStatsUp()));
-        if (playerClass.getResistanceStatsUp() > 100) {
-            uiCommandBuilder.set("#Resistance.Visible", false);
-            uiCommandBuilder.set("#NegativeResistance.Visible", true);
+        if (this.playerClass != null) {
+            uiCommandBuilder.append("StatsUp.ui");
+            uiCommandBuilder.set("#HealthBar.Value", percentage(0, 200, playerClass.getHealthStatsUp()));
+            uiCommandBuilder.set("#StrengthBar.Value", percentage(0, 50, playerClass.getStrengthStatsUp()));
+            if (playerClass.getResistanceStatsUp() > 100) {
+                uiCommandBuilder.set("#Resistance.Visible", false);
+                uiCommandBuilder.set("#NegativeResistance.Visible", true);
+            }
+            else {
+                uiCommandBuilder.set("#Resistance.Visible", true);
+                uiCommandBuilder.set("#NegativeResistance.Visible", false);
+            }
+            uiCommandBuilder.set("#ResistanceBar.Value", resistancePercentage(playerClass.getResistanceStatsUp()));
+            uiCommandBuilder.set("#NegativeResistanceBar.Value", resistancePercentage(playerClass.getResistanceStatsUp()));
+            uiCommandBuilder.set("#StaminaBar.Value", percentage(0, 72, playerClass.getStaminaStatsUp()));
         }
-        else {
-            uiCommandBuilder.set("#Resistance.Visible", true);
-            uiCommandBuilder.set("#NegativeResistance.Visible", false);
-        }
-        uiCommandBuilder.set("#ResistanceBar.Value", resistancePercentage(playerClass.getResistanceStatsUp()));
-        uiCommandBuilder.set("#NegativeResistanceBar.Value", resistancePercentage(playerClass.getResistanceStatsUp()));
-        uiCommandBuilder.set("#StaminaBar.Value", percentage(0, 72, playerClass.getStaminaStatsUp()));
     }
 
     public float percentage(float min, float max, float value) {

@@ -1,6 +1,7 @@
 package me.shygars.systems;
 
 import com.hypixel.hytale.common.util.ArrayUtil;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -17,6 +18,10 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
+import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
+import com.hypixel.hytale.server.core.modules.entitystats.modifier.Modifier;
+import com.hypixel.hytale.server.core.modules.entitystats.modifier.StaticModifier;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -30,6 +35,7 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class PlayerJoinEventSystem {
+    protected static final ComponentType<EntityStore, EntityStatMap> STAT_MAP_COMPONENT_TYPE = EntityStatMap.getComponentType();
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     public static void onPlayerReady(PlayerReadyEvent event) {
         Player player = event.getPlayer();
@@ -65,6 +71,16 @@ public class PlayerJoinEventSystem {
             perWorldDataDeadLands.setRespawnPoints(ArrayUtil.append(deadLandsRespawnPoints, new PlayerRespawnPointData(new Vector3i(1, 94, -6), new Vector3d(1, 95, -6), "Dead Lands Respawn Point")));
             perWorldDataLavaSprings.setRespawnPoints(ArrayUtil.append(lavaSpringsRespawnPoints, new PlayerRespawnPointData(new Vector3i(0, 97, 1), new Vector3d(0, 98, 1), "Lava Springs Respawn Point")));
             perWorldDataInfernalCastle.setRespawnPoints(ArrayUtil.append(infernalCastleRespawnPoints, new PlayerRespawnPointData(new Vector3i(32, 105, -1), new Vector3d(32, 106, -1), "Infernal Castle Respawn Point")));
+
+            // Initialize stats
+            StaticModifier maxHealthModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, 100);
+            StaticModifier maxStaminaModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, 3);
+            EntityStatMap entityStatMapComponent = store.getComponent(ref, STAT_MAP_COMPONENT_TYPE);
+            assert entityStatMapComponent != null;
+            entityStatMapComponent.putModifier(EntityStatType.getAssetMap().getIndex("Health"),"Health", maxHealthModifier);
+            entityStatMapComponent.putModifier(EntityStatType.getAssetMap().getIndex("Stamina"), "Stamina", maxStaminaModifier);
+            entityStatMapComponent.addStatValue(EntityStatType.getAssetMap().getIndex("Health"), 100);
+
         }
         else if (Objects.requireNonNull(store.getComponent(ref, InfernalDescent.instance.getPlayerClassComponent())).getCurrentClass() == 4) {
             EventTitleUtil.showEventTitleToPlayer(playerRef, Message.raw("Please choose your Class"), Message.raw("You won't be able to change your class once you accept the quest"), false, null, 15, 1, 1);
@@ -79,6 +95,15 @@ public class PlayerJoinEventSystem {
             perWorldDataDeadLands.setRespawnPoints(ArrayUtil.append(deadLandsRespawnPoints, new PlayerRespawnPointData(new Vector3i(1, 94, -6), new Vector3d(1, 95, -6), "Dead Lands Respawn Point")));
             perWorldDataLavaSprings.setRespawnPoints(ArrayUtil.append(lavaSpringsRespawnPoints, new PlayerRespawnPointData(new Vector3i(0, 97, 1), new Vector3d(0, 98, 1), "Lava Springs Respawn Point")));
             perWorldDataInfernalCastle.setRespawnPoints(ArrayUtil.append(infernalCastleRespawnPoints, new PlayerRespawnPointData(new Vector3i(32, 105, -1), new Vector3d(32, 106, -1), "Infernal Castle Respawn Point")));
+
+            // Initialize stats
+            StaticModifier maxHealthModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, 100);
+            StaticModifier maxStaminaModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, 3);
+            EntityStatMap entityStatMapComponent = store.getComponent(ref, STAT_MAP_COMPONENT_TYPE);
+            assert entityStatMapComponent != null;
+            entityStatMapComponent.putModifier(EntityStatType.getAssetMap().getIndex("Health"),"Health", maxHealthModifier);
+            entityStatMapComponent.putModifier(EntityStatType.getAssetMap().getIndex("Stamina"), "Stamina", maxStaminaModifier);
+            entityStatMapComponent.addStatValue(EntityStatType.getAssetMap().getIndex("Health"), 100);
         }
         if (store.getComponent(ref, InfernalDescent.instance.getSoulFormComponent()) != null) {
             world.execute(() -> {
