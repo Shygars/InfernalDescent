@@ -4,6 +4,7 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
+import me.shygars.actions.ActionOpenLayerPortal;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 public class BuilderActionOpenLayerPortal extends BuilderActionBase {

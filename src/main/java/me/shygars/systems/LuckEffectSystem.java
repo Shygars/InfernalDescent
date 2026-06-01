@@ -2,7 +2,6 @@ package me.shygars.systems;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
-import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.entity.effect.ActiveEntityEffect;
@@ -15,6 +14,7 @@ import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
 import com.hypixel.hytale.server.core.modules.item.ItemModule;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 

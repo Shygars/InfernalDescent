@@ -1,19 +1,12 @@
 package me.shygars.game;
 
-import com.hypixel.hytale.component.Holder;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.Packet;
 import com.hypixel.hytale.protocol.packets.inventory.MoveItemStack;
 import com.hypixel.hytale.server.core.io.PacketHandler;
 import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.io.handlers.game.GamePacketHandler;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.shygars.InfernalDescent;
 import me.shygars.components.IsPlayer;
-import me.shygars.components.PlayerClass;
-
-import java.util.Objects;
 
 public class SlotLock {
     private static IsPlayer getIsPlayer(PacketHandler handler) {

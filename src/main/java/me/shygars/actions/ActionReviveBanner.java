@@ -2,8 +2,7 @@ package me.shygars.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
@@ -12,7 +11,6 @@ import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
-import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
@@ -20,6 +18,7 @@ import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import me.shygars.InfernalDescent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -70,7 +69,7 @@ public class ActionReviveBanner extends ActionBase {
                     Store<EntityStore> storePlayer = refPlayer.getStore();
                     if (Objects.requireNonNull(storePlayer.getComponent(refPlayer, InfernalDescent.instance.getPlayerClassComponent())).getCurrentClass() == this.reviveClass) {
                         Vector3d bannerPos = Objects.requireNonNull(store.getComponent(ref, TransformComponent.getComponentType())).getPosition();
-                        Vector3f bannerRot = Objects.requireNonNull(store.getComponent(ref, TransformComponent.getComponentType())).getRotation();
+                        Rotation3f bannerRot = Objects.requireNonNull(store.getComponent(ref, TransformComponent.getComponentType())).getRotation();
                         Teleport teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(bannerPos, bannerRot));
                         storePlayer.addComponent(refPlayer, Teleport.getComponentType(), teleport);
                         storePlayer.tryRemoveComponent(refPlayer, InfernalDescent.instance.getSoulFormComponent());

@@ -96,7 +96,7 @@ public class ClassItemsDistribution {
             if (secWeapon.equals(new ItemStack("Shadow_Knight_Secondary_Weapon")) || secWeapon.equals(new ItemStack("Shadow_Knight_Secondary_Weapon_Upgrade1")) || secWeapon.equals(new ItemStack("Shadow_Knight_Secondary_Weapon_Upgrade2")) || secWeapon.equals(new ItemStack("Shadow_Knight_Secondary_Weapon_Upgrade3"))) {
                 utilityContainer.addItemStackToSlot((short) 0, secWeapon);
                 hotbarContainer.addItemStackToSlot((short) 1, new ItemStack("Blocker"));
-                utilityComp.setActiveSlot((byte) 0);
+                utilityComp.setActiveSlot((byte) 0, ref, store);
                 store.getExternalData().getWorld().execute(() -> {
                     playerRef.getPacketHandler().writeNoCache(new SetActiveSlot(-5, 0));
                 });

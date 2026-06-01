@@ -17,7 +17,7 @@ public class CancelQuest extends AbstractPlayerCommand {
     @Override
     protected void execute(@NonNullDecl CommandContext commandContext, @NonNullDecl Store<EntityStore> store, @NonNullDecl Ref<EntityStore> ref, @NonNullDecl PlayerRef playerRef, @NonNullDecl World world) {
         if (world.getName().equals("default")) {
-            world.breakBlock(-7, 78, -15, 0);
+            world.setBlock(-7, 79, -15, "Rock_Magma_Cooled");
             world.setBlock(-1, 83, 1, "Banner_Cancel");
             world.breakBlock(-8, 83, -16, 0);
             world.breakBlock(-7, 83, -16, 0);

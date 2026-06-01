@@ -3,7 +3,6 @@ package me.shygars.actions;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
@@ -38,10 +37,7 @@ public class ActionMessage extends ActionBase {
                 PlayerRef playerRef = (PlayerRef) players.toArray()[i];
                 Ref<EntityStore> refPlayer = playerRef.getReference();
                 if (refPlayer != null) {
-                    Store<EntityStore> storePlayer = refPlayer.getStore();
-                    Player player = storePlayer.getComponent(refPlayer, Player.getComponentType());
-                    if (player == null) return false;
-                    player.sendMessage(Message.raw(this.messageString));
+                    playerRef.sendMessage(Message.raw(this.messageString));
                 }
                 else return false;
             }
@@ -51,9 +47,7 @@ public class ActionMessage extends ActionBase {
             if (refES == null) return false;
             PlayerRef playerRef = store.getComponent(refES, PlayerRef.getComponentType());
             if (playerRef == null) return false;
-            Player player = store.getComponent(refES, Player.getComponentType());
-            if (player == null) return false;
-            player.sendMessage(Message.raw(this.messageString));
+            playerRef.sendMessage(Message.raw(this.messageString));
         }
 
         return true;

@@ -10,7 +10,7 @@ public class StatsUpHUD extends CustomUIHud {
     private final PlayerClass playerClass;
 
     public StatsUpHUD(@NonNullDecl PlayerRef playerRef, @NonNullDecl PlayerClass playerClass) {
-        super(playerRef);
+        super(playerRef, "StatsUpHUD");
         this.playerClass = playerClass;
     }
 
@@ -19,8 +19,17 @@ public class StatsUpHUD extends CustomUIHud {
         if (this.playerClass != null) {
             uiCommandBuilder.append("StatsUp.ui");
             uiCommandBuilder.set("#HealthBar.Value", percentage(0, 200, playerClass.getHealthStatsUp()));
-            uiCommandBuilder.set("#StrengthBar.Value", percentage(0, 50, playerClass.getStrengthStatsUp()));
-            if (playerClass.getResistanceStatsUp() > 100) {
+            if (playerClass.getStrengthStatsUp() < 25) {
+                uiCommandBuilder.set("#Strength.Visible", false);
+                uiCommandBuilder.set("#NegativeStrength.Visible", true);
+            }
+            else {
+                uiCommandBuilder.set("#Strength.Visible", true);
+                uiCommandBuilder.set("#NegativeStrength.Visible", false);
+            }
+            uiCommandBuilder.set("#StrengthBar.Value", strengthPercentage(playerClass.getStrengthStatsUp()));
+            uiCommandBuilder.set("#NegativeStrengthBar.Value", strengthPercentage(playerClass.getStrengthStatsUp()));
+            if (playerClass.getStrengthStatsUp() > 100) {
                 uiCommandBuilder.set("#Resistance.Visible", false);
                 uiCommandBuilder.set("#NegativeResistance.Visible", true);
             }
@@ -38,6 +47,22 @@ public class StatsUpHUD extends CustomUIHud {
         float range = max - min;
         float calculatedValue = value - min;
         return calculatedValue / range;
+    }
+
+    public float strengthPercentage(float value) {
+        float calculatedValue;
+        if (value > 25) {
+            calculatedValue = value - 25;
+            return calculatedValue / 50;
+        }
+        else if (value > 12 && value < 25) {
+            calculatedValue = value - 12;
+            return calculatedValue / -13 + 1;
+        }
+        else if (value == 12) {
+            return 1;
+        }
+        else return 0;
     }
 
     public float resistancePercentage(float value) {

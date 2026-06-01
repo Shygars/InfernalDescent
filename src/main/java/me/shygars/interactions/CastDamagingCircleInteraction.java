@@ -4,8 +4,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -14,6 +13,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Sim
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 
@@ -40,7 +40,7 @@ public class CastDamagingCircleInteraction extends SimpleInstantInteraction {
         }
         Vector3d pos = playerRef.getTransform().getPosition();
         commandBuffer.getExternalData().getWorld().execute(() -> {
-            NPCPlugin.get().spawnNPC(commandBuffer.getStore(), "Damaging_Circle", null, pos, new Vector3f(0, 0, 0));
+            NPCPlugin.get().spawnNPC(commandBuffer.getStore(), "Damaging_Circle", null, pos, new Rotation3f(0, 0, 0));
         });
     }
 }

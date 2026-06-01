@@ -9,7 +9,7 @@ import java.util.Objects;
 public class ItemRewards {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    public static ItemStack[] losableItemRewards = {
+    public static final ItemStack[] losableItemRewards = {
             new ItemStack("Demon_Blood"),
             new ItemStack("Demon_Bile"),
             new ItemStack("Demon_Bone"),

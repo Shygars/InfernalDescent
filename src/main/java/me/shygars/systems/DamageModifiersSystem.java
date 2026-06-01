@@ -3,7 +3,7 @@ package me.shygars.systems;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.entity.effect.EffectControllerComponent;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageEventSystem;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageModule;
@@ -24,6 +25,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.shygars.InfernalDescent;
 import me.shygars.components.PlayerClass;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -52,12 +54,12 @@ public class DamageModifiersSystem extends DamageEventSystem {
     public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl Damage damage) {
         if (damage.getSource() instanceof Damage.EntitySource entitySource) {
             float originalDamage = damage.getAmount();
-            float damageStatsUp = 0;
+            float damageStatsUp = 1;
             float damageResistance = 1;
             float additionalResistance = 1;
             float damageMultiplier = 1;
             float resistanceHalved = 1;
-            // Stats Up Damage Flat Augmentation
+            // Stats Up Damage Multiplier Augmentation
             Ref<EntityStore> attackerRef = entitySource.getRef();
             PlayerClass playerClass = commandBuffer.getComponent(attackerRef, InfernalDescent.instance.getPlayerClassComponent());
             if (playerClass != null) {
@@ -90,7 +92,7 @@ public class DamageModifiersSystem extends DamageEventSystem {
                     }
                 }
             }
-            // Resistance Multiplier
+            // Resistance Multiplier and Invincibility check
             EffectControllerComponent defenderEffectController = archetypeChunk.getComponent(i, EffectControllerComponent.getComponentType());
             if (defenderEffectController != null) {
                 ActiveEntityEffect[] defenderActiveEffects = defenderEffectController.getAllActiveEntityEffects();
@@ -108,12 +110,21 @@ public class DamageModifiersSystem extends DamageEventSystem {
                             if ("Resistance_Halved".equals(effect.getId())) {
                                 resistanceHalved = 2F;
                             }
+                            if ("True_Invincibility".equals(effect.getId())) {
+                                damage.setCancelled(true);
+                                Vector3d pos = Objects.requireNonNull(archetypeChunk.getComponent(i, TransformComponent.getComponentType())).getPosition();
+                                Rotation3f rot = Objects.requireNonNull(archetypeChunk.getComponent(i, TransformComponent.getComponentType())).getRotation();
+                                Vector3d particlePos = new Vector3d(pos.x, pos.y + 1.5, pos.z);
+                                SoundUtil.playSoundEvent3d(SoundEvent.getAssetMap().getIndex("SFX_Mace_T1_Block_Impact"), SoundCategory.SFX, pos.x, pos.y, pos.z, commandBuffer);
+                                ParticleUtil.spawnParticleEffect("Shield_Block", particlePos, rot.yaw(), rot.pitch(), rot.roll(), 1, 1, commandBuffer);
+                                return;
+                            }
                         }
                     }
                 }
             }
             // Damage calculation
-            damage.setAmount((originalDamage + damageStatsUp) * damageMultiplier * damageResistance * additionalResistance * resistanceHalved);
+            damage.setAmount(originalDamage * damageStatsUp * damageMultiplier * damageResistance * additionalResistance * resistanceHalved);
             // Minimum damage 1
             if (damage.getAmount() < 1) {
                 damage.setAmount(1);

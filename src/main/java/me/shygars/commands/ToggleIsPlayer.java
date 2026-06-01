@@ -5,7 +5,6 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -30,19 +29,18 @@ public class ToggleIsPlayer extends AbstractTargetPlayerCommand {
             @NonNullDecl World world,
             @NonNullDecl Store<EntityStore> store)
     {
-        Player player = store.getComponent(targetRef, Player.getComponentType());
-        Player targetPlayer = store.getComponent(targetRef, Player.getComponentType());
+        PlayerRef targetPlayerRef = store.getComponent(targetRef, PlayerRef.getComponentType());
         if (sourceRef != null) {
-            player = store.getComponent(sourceRef, Player.getComponentType());
+            playerRef = store.getComponent(sourceRef, PlayerRef.getComponentType());
         }
-        assert player != null;
-        assert targetPlayer != null;
+        assert playerRef != null;
+        assert targetPlayerRef != null;
         if (store.getComponent(targetRef, InfernalDescent.instance.getIsPlayer()) == null) {
-            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " is now a Player."));
+            playerRef.sendMessage(Message.raw(targetPlayerRef.getUsername() + " is now a Player."));
             store.putComponent(targetRef, InfernalDescent.instance.getIsPlayer(), new IsPlayer());
         }
         else {
-            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " just want to spectate."));
+            playerRef.sendMessage(Message.raw(targetPlayerRef.getUsername() + " just want to spectate."));
             store.removeComponent(targetRef, InfernalDescent.instance.getIsPlayer());
         }
     }

@@ -28,7 +28,7 @@ public class ActionStartQuest extends ActionBase {
     public boolean execute(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
         super.execute(ref, role, sensorInfo, dt, store);
         World world = store.getExternalData().getWorld();
-        world.setBlock(-7, 78, -15, "Hell_Portal");
+        world.setBlock(-7, 79, -15, "Hell_Portal");
         world.breakBlock(-1, 83, 1, 0);
         world.setBlock(-8, 83, -16, "TeleportL1");
         world.setBlock(-7, 83, -16, "TeleportL1");

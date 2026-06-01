@@ -15,6 +15,8 @@ import me.shygars.game.classes.ClassItemsDistribution;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import java.util.Objects;
+
 public class ResetPlayerClass extends AbstractTargetPlayerCommand {
 
     public ResetPlayerClass() {
@@ -29,20 +31,19 @@ public class ResetPlayerClass extends AbstractTargetPlayerCommand {
             @NonNullDecl PlayerRef playerRef,
             @NonNullDecl World world,
             @NonNullDecl Store<EntityStore> store) {
-        Player player = store.getComponent(targetRef, Player.getComponentType());
-        Player targetPlayer = store.getComponent(targetRef, Player.getComponentType());
+        PlayerRef targetPlayerRef = store.getComponent(targetRef, PlayerRef.getComponentType());
         PlayerClass playerClass = store.getComponent(targetRef, InfernalDescent.instance.getPlayerClassComponent());
         if (sourceRef != null) {
-            player = store.getComponent(sourceRef, Player.getComponentType());
+            playerRef = store.getComponent(sourceRef, PlayerRef.getComponentType());
         }
-        assert player != null;
-        assert targetPlayer != null;
+        assert playerRef != null;
+        assert targetPlayerRef != null;
         if (playerClass != null) {
             PlayerClass newPlayerClass = new PlayerClass(playerClass.getCurrentClass());
             store.replaceComponent(targetRef, InfernalDescent.instance.getPlayerClassComponent(), newPlayerClass);
-            ClassItemsDistribution.giveClassItems(player);
+            ClassItemsDistribution.giveClassItems(Objects.requireNonNull(store.getComponent(targetRef, Player.getComponentType())));
         }
-        else player.sendMessage(Message.raw("Player has no Class"));
-        player.sendMessage(Message.raw("Class of " + targetPlayer.getDisplayName() + " reseted"));
+        else playerRef.sendMessage(Message.raw("Player has no Class"));
+        playerRef.sendMessage(Message.raw("Class of " + targetPlayerRef.getUsername() + " reseted"));
     }
 }

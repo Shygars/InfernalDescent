@@ -6,9 +6,8 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Transform;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
@@ -23,6 +22,7 @@ import me.shygars.InfernalDescent;
 import me.shygars.components.ReturningSurface;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
 
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +46,7 @@ public class FailureSystem extends EntityTickingSystem<EntityStore> {
                     EventTitleUtil.showEventTitleToUniverse(Message.raw("Everyone is Dead!"), Message.raw("Returning to the surface..."), false, null, 5, 1, 1);
                 }
                 SoundUtil.playSoundEvent2d(ref, SoundEvent.getAssetMap().getIndex("SFX_Everyone_Is_Dead"), SoundCategory.SFX, store);
-                Teleport teleportComponent = Teleport.createForPlayer(Universe.get().getWorld("default"), new Transform(new Vector3d(0, 80, 0), new Vector3f(0, 0)));
+                Teleport teleportComponent = Teleport.createForPlayer(Universe.get().getWorld("default"), new Transform(new Vector3d(0, 80, 0), new Rotation3f(0, 0, 0)));
                 commandBuffer.putComponent(ref, InfernalDescent.instance.getReturningSurface(), new ReturningSurface());
                 HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> {
                     // Teleport

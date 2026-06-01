@@ -5,7 +5,6 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -28,23 +27,22 @@ public class GetPlayerClassStats extends AbstractTargetPlayerCommand {
             @NonNullDecl PlayerRef playerRef,
             @NonNullDecl World world,
             @NonNullDecl Store<EntityStore> store) {
-        Player player = store.getComponent(targetRef, Player.getComponentType());
-        Player targetPlayer = store.getComponent(targetRef, Player.getComponentType());
+        PlayerRef targetPlayerRef = store.getComponent(targetRef, PlayerRef.getComponentType());
         PlayerClass playerClass = store.getComponent(targetRef, InfernalDescent.instance.getPlayerClassComponent());
         if (sourceRef != null) {
-            player = store.getComponent(sourceRef, Player.getComponentType());
+            playerRef = store.getComponent(sourceRef, PlayerRef.getComponentType());
         }
-        assert player != null;
-        assert targetPlayer != null;
+        assert playerRef != null;
+        assert targetPlayerRef != null;
         if (playerClass != null) {
-            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " stats:"));
-            player.sendMessage(Message.raw("Max Health - Index: " + playerClass.getHealthStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.HEALTH_STAT_UP)));
-            player.sendMessage(Message.raw("Strength - Index: " + playerClass.getStrengthStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.STRENGTH_STAT_UP)));
-            player.sendMessage(Message.raw("Resistance - Index: " + playerClass.getResistanceStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.RESISTANCE_STAT_UP)));
-            player.sendMessage(Message.raw("Max Stamina - Index: " + playerClass.getStaminaStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.STAMINA_STAT_UP)));
+            playerRef.sendMessage(Message.raw(targetPlayerRef.getUsername() + " stats:"));
+            playerRef.sendMessage(Message.raw("Max Health - Index: " + playerClass.getHealthStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.HEALTH_STAT_UP)));
+            playerRef.sendMessage(Message.raw("Strength - Index: " + playerClass.getStrengthStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.STRENGTH_STAT_UP)));
+            playerRef.sendMessage(Message.raw("Resistance - Index: " + playerClass.getResistanceStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.RESISTANCE_STAT_UP)));
+            playerRef.sendMessage(Message.raw("Max Stamina - Index: " + playerClass.getStaminaStatsUp() + " | Value: " + playerClass.getStatsUpValue(playerClass.STAMINA_STAT_UP)));
         }
         else {
-            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " do not have a class."));
+            playerRef.sendMessage(Message.raw(targetPlayerRef.getUsername() + " do not have a class."));
         }
     }
 }

@@ -1,7 +1,7 @@
 {
   "Group": "me.shygars",
   "Name": "Infernal Descent",
-  "Version": "1.0.0",
+  "Version": "0.2.2",
   "Description": "Plugin for the Infernal Descent Experience.",
   "Authors": [
     {
@@ -9,7 +9,7 @@
     }
   ],
   "Website": "",
-  "ServerVersion": "2026.03.26-89796e57b",
+  "ServerVersion": ">=0.5.0-pre.9.1 <0.6.0",
   "Dependencies": {},
   "OptionalDependencies": {},
   "DisableByDefault": false,

@@ -8,8 +8,9 @@ import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.inventory.InventoryChangeEvent;
+import com.hypixel.hytale.server.core.event.events.ecs.InventoryChangeEvent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.shygars.InfernalDescent;
@@ -160,70 +161,73 @@ public class ItemsTradeSystem extends EntityEventSystem<EntityStore, InventoryCh
             @NonNullDecl InventoryChangeEvent event) {
         World world = store.getExternalData().getWorld();
         Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
+        PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
         Player player = commandBuffer.getComponent(ref, Player.getComponentType());
         PlayerClass playerClass = commandBuffer.getComponent(ref, InfernalDescent.instance.getPlayerClassComponent());
-        if (player != null) {
-            if (playerClass != null) {
-                int playerCurrentClass = playerClass.getCurrentClass();
-                if (playerCurrentClass != 4) {
-                    if (event.getItemContainer().getCapacity() == 9 || event.getItemContainer().getCapacity() == 36) {
-                        for (short i = 0; i < event.getItemContainer().getCapacity(); i++) {
-                            ItemStack selectedSlotItemStack = event.getItemContainer().getItemStack(i);
-                            if (selectedSlotItemStack != null) {
-                                // Give discharged lost crucifix
-                                if (selectedSlotItemStack.getItemId().equals("Lost_Crucifix_Pickup")) {
-                                    ItemStack stack = new ItemStack("Lost_Crucifix", 1, 0, 1000, null);
-                                    event.getItemContainer().replaceItemStackInSlot(i, selectedSlotItemStack, stack);
-                                    break;
-                                }
-                                // Change shop items to class gears
-                                if (Arrays.asList(ClassItems.classItemUpgrades[playerCurrentClass][0]).contains(selectedSlotItemStack)) {
-                                    if (playerClass.getMainWeaponUpgrade() < ClassItems.getUpgradeTierIndex(selectedSlotItemStack)) {
-                                        playerClass.setMainWeaponUpgrade(ClassItems.getUpgradeTierIndex(selectedSlotItemStack));
-                                        ClassItemsDistribution.giveClassItems(player);
-                                        player.sendMessage(Message.raw("Your main weapon was upgraded to Tier " + (ClassItems.getUpgradeTierIndex(selectedSlotItemStack) + 1)));
+        if (playerRef != null) {
+            if (player != null) {
+                if (playerClass != null) {
+                    int playerCurrentClass = playerClass.getCurrentClass();
+                    if (playerCurrentClass != 4) {
+                        if (event.getItemContainer().getCapacity() == 9 || event.getItemContainer().getCapacity() == 36) {
+                            for (short i = 0; i < event.getItemContainer().getCapacity(); i++) {
+                                ItemStack selectedSlotItemStack = event.getItemContainer().getItemStack(i);
+                                if (selectedSlotItemStack != null) {
+                                    // Give discharged lost crucifix
+                                    if (selectedSlotItemStack.getItemId().equals("Lost_Crucifix_Pickup")) {
+                                        ItemStack stack = new ItemStack("Lost_Crucifix", 1, 0, 1000, null);
+                                        event.getItemContainer().replaceItemStackInSlot(i, selectedSlotItemStack, stack);
+                                        break;
                                     }
-                                    else {
-                                        world.execute(() -> {
-                                            ItemStack stack = (new ItemStack("Infernal_Soul", refundMainTotal(playerClass.getCurrentClass(), ClassItems.getUpgradeTierIndex(selectedSlotItemStack))));
-                                            player.giveItem(stack, ref, store);
-                                        });
-                                        player.sendMessage(Message.raw("You can't downgrade your main weapon!"));
+                                    // Change shop items to class gears
+                                    if (Arrays.asList(ClassItems.classItemUpgrades[playerCurrentClass][0]).contains(selectedSlotItemStack)) {
+                                        if (playerClass.getMainWeaponUpgrade() < ClassItems.getUpgradeTierIndex(selectedSlotItemStack)) {
+                                            playerClass.setMainWeaponUpgrade(ClassItems.getUpgradeTierIndex(selectedSlotItemStack));
+                                            ClassItemsDistribution.giveClassItems(player);
+                                            playerRef.sendMessage(Message.raw("Your main weapon was upgraded to Tier " + (ClassItems.getUpgradeTierIndex(selectedSlotItemStack) + 1)));
+                                        }
+                                        else {
+                                            world.execute(() -> {
+                                                ItemStack stack = (new ItemStack("Infernal_Soul", refundMainTotal(playerClass.getCurrentClass(), ClassItems.getUpgradeTierIndex(selectedSlotItemStack))));
+                                                Player.giveItem(stack, ref, store);
+                                            });
+                                            playerRef.sendMessage(Message.raw("You can't downgrade your main weapon!"));
+                                        }
+                                        event.getItemContainer().removeItemStackFromSlot(i);
+                                        break;
                                     }
-                                    event.getItemContainer().removeItemStackFromSlot(i);
-                                    break;
-                                }
-                                else if (Arrays.asList(ClassItems.classItemUpgrades[playerCurrentClass][1]).contains(selectedSlotItemStack)) {
-                                    if (playerClass.getSecWeaponUpgrade() < ClassItems.getUpgradeTierIndex(selectedSlotItemStack)) {
-                                        playerClass.setSecWeaponUpgrade(ClassItems.getUpgradeTierIndex(selectedSlotItemStack));
-                                        ClassItemsDistribution.giveClassItems(player);
-                                        player.sendMessage(Message.raw("Your secondary weapon was upgraded to Tier " + (ClassItems.getUpgradeTierIndex(selectedSlotItemStack) + 1)));
+                                    else if (Arrays.asList(ClassItems.classItemUpgrades[playerCurrentClass][1]).contains(selectedSlotItemStack)) {
+                                        if (playerClass.getSecWeaponUpgrade() < ClassItems.getUpgradeTierIndex(selectedSlotItemStack)) {
+                                            playerClass.setSecWeaponUpgrade(ClassItems.getUpgradeTierIndex(selectedSlotItemStack));
+                                            ClassItemsDistribution.giveClassItems(player);
+                                            playerRef.sendMessage(Message.raw("Your secondary weapon was upgraded to Tier " + (ClassItems.getUpgradeTierIndex(selectedSlotItemStack) + 1)));
+                                        }
+                                        else {
+                                            world.execute(() -> {
+                                                ItemStack stack = (new ItemStack("Infernal_Soul", refundSecondaryTotal(playerClass.getCurrentClass(), ClassItems.getUpgradeTierIndex(selectedSlotItemStack))));
+                                                Player.giveItem(stack, ref, store);
+                                            });
+                                            playerRef.sendMessage(Message.raw("You can't downgrade your secondary weapon!"));
+                                        }
+                                        event.getItemContainer().removeItemStackFromSlot(i);
+                                        break;
                                     }
-                                    else {
-                                        world.execute(() -> {
-                                            ItemStack stack = (new ItemStack("Infernal_Soul", refundSecondaryTotal(playerClass.getCurrentClass(), ClassItems.getUpgradeTierIndex(selectedSlotItemStack))));
-                                            player.giveItem(stack, ref, store);
-                                        });
-                                        player.sendMessage(Message.raw("You can't downgrade your secondary weapon!"));
+                                    else if (Arrays.asList(ClassItems.classItemUpgrades[playerCurrentClass][2]).contains(selectedSlotItemStack)) {
+                                        if (playerClass.getArmorUpgrade() < ClassItems.getUpgradeTierIndex(selectedSlotItemStack)) {
+                                            playerClass.setArmorUpgrade(ClassItems.getUpgradeTierIndex(selectedSlotItemStack));
+                                            ClassItemsDistribution.giveClassItems(player);
+                                            playerRef.sendMessage(Message.raw("Your armor was upgraded to Tier " + (ClassItems.getUpgradeTierIndex(selectedSlotItemStack) + 1)));
+                                        }
+                                        else {
+                                            world.execute(() -> {
+                                                ItemStack stack = (new ItemStack("Infernal_Soul", refundArmorTotal(playerClass.getCurrentClass(), ClassItems.getUpgradeTierIndex(selectedSlotItemStack))));
+                                                Player.giveItem(stack, ref, store);
+                                            });
+                                            playerRef.sendMessage(Message.raw("You can't downgrade your armor!"));
+                                        }
+                                        event.getItemContainer().removeItemStackFromSlot(i);
+                                        break;
                                     }
-                                    event.getItemContainer().removeItemStackFromSlot(i);
-                                    break;
-                                }
-                                else if (Arrays.asList(ClassItems.classItemUpgrades[playerCurrentClass][2]).contains(selectedSlotItemStack)) {
-                                    if (playerClass.getArmorUpgrade() < ClassItems.getUpgradeTierIndex(selectedSlotItemStack)) {
-                                        playerClass.setArmorUpgrade(ClassItems.getUpgradeTierIndex(selectedSlotItemStack));
-                                        ClassItemsDistribution.giveClassItems(player);
-                                        player.sendMessage(Message.raw("Your armor was upgraded to Tier " + (ClassItems.getUpgradeTierIndex(selectedSlotItemStack) + 1)));
-                                    }
-                                    else {
-                                        world.execute(() -> {
-                                            ItemStack stack = (new ItemStack("Infernal_Soul", refundArmorTotal(playerClass.getCurrentClass(), ClassItems.getUpgradeTierIndex(selectedSlotItemStack))));
-                                            player.giveItem(stack, ref, store);
-                                        });
-                                        player.sendMessage(Message.raw("You can't downgrade your armor!"));
-                                    }
-                                    event.getItemContainer().removeItemStackFromSlot(i);
-                                    break;
                                 }
                             }
                         }

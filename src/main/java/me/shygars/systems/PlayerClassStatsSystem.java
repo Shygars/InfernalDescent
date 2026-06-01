@@ -47,11 +47,11 @@ public class PlayerClassStatsSystem extends RefChangeSystem<EntityStore, PlayerC
             else if (newPlayerClass.getHealthStatsUp() < 0) {
                 newPlayerClass.setHealthStatsUp(0);
             }
-            if (newPlayerClass.getStrengthStatsUp() > 50) {
-                newPlayerClass.setStrengthStatsUp(50);
+            if (newPlayerClass.getStrengthStatsUp() > 75) {
+                newPlayerClass.setStrengthStatsUp(75);
             }
-            else if (newPlayerClass.getStrengthStatsUp() < 0) {
-                newPlayerClass.setStrengthStatsUp(0);
+            else if (newPlayerClass.getStrengthStatsUp() < 12) {
+                newPlayerClass.setStrengthStatsUp(12);
             }
             if (newPlayerClass.getResistanceStatsUp() > 150) {
                 newPlayerClass.setResistanceStatsUp(150);

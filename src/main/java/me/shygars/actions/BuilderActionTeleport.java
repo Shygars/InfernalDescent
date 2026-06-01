@@ -1,9 +1,8 @@
 package me.shygars.actions;
 
 import com.google.gson.JsonElement;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Transform;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -17,6 +16,7 @@ import com.hypixel.hytale.server.npc.asset.builder.holder.StringHolder;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -94,7 +94,7 @@ public class BuilderActionTeleport extends BuilderActionBase {
                                 this.yPos.get(support.getExecutionContext()),
                                 this.zPos.get(support.getExecutionContext())
                         ),
-                        new Vector3f(
+                        new Rotation3f(
                                 this.xRot.get(support.getExecutionContext()),
                                 this.yRot.get(support.getExecutionContext()),
                                 this.zRot.get(support.getExecutionContext())

@@ -8,7 +8,6 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.arguments.system.RequiredArg;
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -37,15 +36,14 @@ public class SetPlayerClass extends AbstractTargetPlayerCommand {
             @NonNullDecl PlayerRef playerRef,
             @NonNullDecl World world,
             @NonNullDecl Store<EntityStore> store) {
-        Player player = store.getComponent(targetRef, Player.getComponentType());
-        Player targetPlayer = store.getComponent(targetRef, Player.getComponentType());
+        PlayerRef targetPlayerRef = store.getComponent(targetRef, PlayerRef.getComponentType());
         PlayerClass playerClass = store.ensureAndGetComponent(targetRef, InfernalDescent.instance.getPlayerClassComponent());
         if (sourceRef != null) {
-            player = store.getComponent(sourceRef, Player.getComponentType());
+            playerRef = store.getComponent(sourceRef, PlayerRef.getComponentType());
         }
-        assert player != null;
+        assert playerRef != null;
         playerClass.setClass(playerClassArg.get(commandContext));
-        assert targetPlayer != null;
-        player.sendMessage(Message.raw("Class of " + targetPlayer.getDisplayName() + " changed to " + PlayerClassNames.getClassName(playerClassArg.get(commandContext))));
+        assert targetPlayerRef != null;
+        playerRef.sendMessage(Message.raw("Class of " + targetPlayerRef.getUsername() + " changed to " + PlayerClassNames.getClassName(playerClassArg.get(commandContext))));
     }
 }

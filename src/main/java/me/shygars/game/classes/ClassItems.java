@@ -3,7 +3,7 @@ package me.shygars.game.classes;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 
 public class ClassItems {
-    public static ItemStack[][][] classItemUpgrades = {
+    public static final ItemStack[][][] classItemUpgrades = {
             // Rows = Player's Class | Columns = Upgrade Type | Planes = Upgrade Tier (+1 as 0 is the base items and there aren't any upgrade items for that)
             // Demon Hunter's Upgrades
             {
@@ -91,7 +91,7 @@ public class ClassItems {
             },
     };
 
-    public static  ItemStack[][][][] classItems = {
+    public static final ItemStack[][][][] classItems = {
             // Rows = Player's Class | Columns = Item Type | Planes = Item Upgrade Tier | Hyperplane = The Actual Item with the rest of the Armor Pieces if needed
             // Demon Hunter's Items
             {

@@ -4,9 +4,8 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Transform;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -27,6 +26,7 @@ import me.shygars.InfernalDescent;
 import me.shygars.components.IsPlayer;
 import me.shygars.components.PlayerClass;
 import me.shygars.game.classes.ClassItemsDistribution;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -43,11 +43,11 @@ public class NewGameInteraction extends SimpleInstantInteraction {
         CommandBuffer<EntityStore> commandBuffer = interactionContext.getCommandBuffer();
         World world = Universe.get().getWorld("default");
         assert world != null;
-        Teleport teleportComponent = Teleport.createForPlayer(world, new Transform(new Vector3d(0.5, 74, 3.5), new Vector3f(0, 0)));
+        Teleport teleportComponent = Teleport.createForPlayer(world, new Transform(new Vector3d(0.5, 74, 3.5), new Rotation3f(0, 0, 0)));
         assert commandBuffer != null;
         Collection<PlayerRef> players = commandBuffer.getExternalData().getWorld().getPlayerRefs();
         world.execute(() ->{
-            world.breakBlock(-7, 78, -15, 0);
+            world.setBlock(-7, 79, -15, "Rock_Magma_Cooled");
             world.setBlock(-1, 83, 1, "Banner_Cancel");
             world.setBlock(-3, 76, -5, "Banner_Demon_Hunter");
             world.setBlock(-1, 76, -5, "Banner_Paladin_Of_Light");

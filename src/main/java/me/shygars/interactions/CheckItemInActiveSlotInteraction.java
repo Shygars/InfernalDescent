@@ -11,7 +11,6 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
 
 public class CheckItemInActiveSlotInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<CheckItemInActiveSlotInteraction> CODEC = BuilderCodec.builder(CheckItemInActiveSlotInteraction.class, CheckItemInActiveSlotInteraction::new, SimpleInstantInteraction.CODEC)

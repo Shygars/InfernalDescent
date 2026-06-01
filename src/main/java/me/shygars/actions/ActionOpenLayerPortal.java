@@ -1,4 +1,4 @@
-package me.shygars.actions.manon;
+package me.shygars.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -21,7 +21,7 @@ public class ActionOpenLayerPortal extends ActionBase {
         World world = store.getExternalData().getWorld();
         if (world.getName().equals("TheDeadLands")) {
             //Portal add
-            world.setBlock(-31, 78,0, "Hell_Portal_Bigger_Rotated");
+            world.setBlock(-31, 79,0, "Hell_Portal_Bigger_Rotated");
             //Teleporter add
             world.setBlock(-31, 80, 4, "TeleportL2");
             world.setBlock(-31, 80, 3,"TeleportL2");
@@ -125,7 +125,7 @@ public class ActionOpenLayerPortal extends ActionBase {
         }
         else if (world.getName().equals("LavaSprings")) {
             //Portal add
-            world.setBlock(-12, 79, 32, "Hell_Portal_Big");
+            world.setBlock(-12, 80, 32, "Hell_Portal_Big");
             //Teleporter add
             world.setBlock(-8, 82, 32, "TeleportL3");
             world.setBlock(-9, 82, 32, "TeleportL3");

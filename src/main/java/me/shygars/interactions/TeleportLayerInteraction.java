@@ -5,11 +5,9 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.validation.Validators;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Transform;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
@@ -22,6 +20,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.shygars.InfernalDescent;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 
@@ -72,7 +71,7 @@ public class TeleportLayerInteraction extends SimpleInstantInteraction {
                 LOGGER.atInfo().log("Target World is null");
                 return;
             }
-            Teleport teleportComponent = Teleport.createForPlayer(targetWorld, new Transform(new Vector3d(0, 80, 0), new Vector3f(0, 0)));
+            Teleport teleportComponent = Teleport.createForPlayer(targetWorld, new Transform(new Vector3d(0, 80, 0), new Rotation3f(0, 0, 0)));
             commandBuffer.addComponent(ref, Teleport.getComponentType(), teleportComponent);
         }
         else {

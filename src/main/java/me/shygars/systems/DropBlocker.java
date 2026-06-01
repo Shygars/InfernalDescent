@@ -6,7 +6,6 @@ import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.server.core.event.events.ecs.DropItemEvent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.shygars.InfernalDescent;
-import me.shygars.components.PlayerClass;
 
 import javax.annotation.Nonnull;
 

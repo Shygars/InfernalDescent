@@ -23,7 +23,9 @@ public class HUDTickRefresh extends EntityTickingSystem<EntityStore> {
         assert player != null;
         assert playerRef != null;
         assert playerClass != null;
-        player.getHudManager().setCustomHud(playerRef, new StatsUpHUD(playerRef, playerClass));
+        var huds = player.getHudManager().getCustomHuds();
+        player.getHudManager().removeCustomHud(playerRef, "StatsUpHUD");
+        player.getHudManager().addCustomHud(playerRef, new StatsUpHUD(playerRef, playerClass));
     }
 
     @NullableDecl

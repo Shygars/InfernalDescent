@@ -34,10 +34,10 @@ public class PlayerClass implements Component<EntityStore> {
     @Setter
     @Getter
     public int staminaStatsUp;
-    public int HEALTH_STAT_UP = 0;
-    public int STRENGTH_STAT_UP = 1;
-    public int RESISTANCE_STAT_UP = 2;
-    public int STAMINA_STAT_UP = 3;
+    public final int HEALTH_STAT_UP = 0;
+    public final int STRENGTH_STAT_UP = 1;
+    public final int RESISTANCE_STAT_UP = 2;
+    public final int STAMINA_STAT_UP = 3;
 
     public static final BuilderCodec<PlayerClass> CODEC = BuilderCodec.builder(PlayerClass.class, PlayerClass::new)
             .append(new KeyedCodec<>("PlayerClassData", Codec.INTEGER),(data, value) -> data.playerClass = value, data -> data.playerClass)
@@ -67,8 +67,8 @@ public class PlayerClass implements Component<EntityStore> {
             .add()
             .append(new KeyedCodec<>("StrengthStatsUp", Codec.INTEGER),(data, value) -> data.strengthStatsUp = value, data -> data.strengthStatsUp)
             .addValidator(Validators.nonNull())
-            .addValidator(Validators.greaterThan(-1))
-            .addValidator(Validators.lessThan(51))
+            .addValidator(Validators.greaterThan(11))
+            .addValidator(Validators.lessThan(76))
             .add()
             .append(new KeyedCodec<>("ResistanceStatsUp", Codec.INTEGER),(data, value) -> data.resistanceStatsUp = value, data -> data.resistanceStatsUp)
             .addValidator(Validators.nonNull())
@@ -88,9 +88,9 @@ public class PlayerClass implements Component<EntityStore> {
         this.secWeaponUpgrade = 0;
         this.armorUpgrade = 0;
         this.healthStatsUp = 50;
-        this.strengthStatsUp = 10;
+        this.strengthStatsUp = 25;
         this.resistanceStatsUp = 100;
-        this.staminaStatsUp = 12;
+        this.staminaStatsUp = 16;
     }
 
     public PlayerClass(int playerClass) {
@@ -99,9 +99,9 @@ public class PlayerClass implements Component<EntityStore> {
         this.secWeaponUpgrade = 0;
         this.armorUpgrade = 0;
         this.healthStatsUp = 50;
-        this.strengthStatsUp = 10;
+        this.strengthStatsUp = 25;
         this.resistanceStatsUp = 100;
-        this.staminaStatsUp = 12;
+        this.staminaStatsUp = 16;
     }
 
     public PlayerClass(int playerClass, int mainWeaponUpgrade, int secWeaponUpgrade, int armorUpgrade) {
@@ -110,9 +110,9 @@ public class PlayerClass implements Component<EntityStore> {
         this.secWeaponUpgrade = secWeaponUpgrade;
         this.armorUpgrade = armorUpgrade;
         this.healthStatsUp = 50;
-        this.strengthStatsUp = 10;
+        this.strengthStatsUp = 25;
         this.resistanceStatsUp = 100;
-        this.staminaStatsUp = 12;
+        this.staminaStatsUp = 16;
     }
 
     public PlayerClass(int playerClass, int mainWeaponUpgrade, int secWeaponUpgrade, int armorUpgrade, int healthStatsUp, int strengthStatsUp, int resistanceStatsUp, int staminaStatsUp) {
@@ -139,7 +139,7 @@ public class PlayerClass implements Component<EntityStore> {
             return this.healthStatsUp * 2;
         }
         else if (stat == 1) {
-            return (this.strengthStatsUp - 10);
+            return (float) (this.strengthStatsUp * 0.04);
         }
         else if (stat == 2) {
             return (float) (this.resistanceStatsUp * 0.01);

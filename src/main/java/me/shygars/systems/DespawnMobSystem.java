@@ -12,8 +12,6 @@ import com.hypixel.hytale.server.spawning.spawnmarkers.SpawnMarkerEntity;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-import javax.annotation.Nonnull;
-
 public class DespawnMobSystem extends EntityTickingSystem<EntityStore> {
     @Override
     public void tick(float dt, int index, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer) {
@@ -26,7 +24,7 @@ public class DespawnMobSystem extends EntityTickingSystem<EntityStore> {
                 if (worldName.equals("TheDeadLands")) {
                     world.setBlock(1, 80, -6, "Wave1_Starter_Dead_Lands");
                     //Portal remove
-                    world.breakBlock(-31, 78, 0, 0);
+                    world.setBlock(-31, 79, 0, "Soil_Pebbles_Frozen");
                     //Teleporter remove
                     world.breakBlock(-31, 80, 4, 0);
                     world.breakBlock(-31, 80, 3, 0);
@@ -131,7 +129,7 @@ public class DespawnMobSystem extends EntityTickingSystem<EntityStore> {
                 if (worldName.equals("LavaSprings")) {
                     world.setBlock(1, 80, -5, "Wave1_Starter_Lava_Springs");
                     //Portal remove
-                    world.breakBlock(-12, 79, 32, 0);
+                    world.setBlock(-12, 80, 32, "Rock_Volcanic");
                     //Teleporter remove
                     world.breakBlock(-8, 82, 32, 0);
                     world.breakBlock(-9, 82, 32, 0);

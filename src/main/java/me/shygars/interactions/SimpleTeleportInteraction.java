@@ -6,9 +6,8 @@ import com.hypixel.hytale.codec.validation.Validators;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Transform;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -17,6 +16,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 
@@ -59,7 +59,7 @@ public class SimpleTeleportInteraction extends SimpleInstantInteraction {
             LOGGER.atInfo().log("Player is null");
             return;
         }
-        Vector3f headRotation = playerRef.getHeadRotation();
+        Rotation3f headRotation = playerRef.getHeadRotation();
         Teleport teleportComponent = Teleport.createForPlayer(new Transform(new Vector3d(x, y, z), headRotation));
         commandBuffer.addComponent(ref, Teleport.getComponentType(), teleportComponent);
     }

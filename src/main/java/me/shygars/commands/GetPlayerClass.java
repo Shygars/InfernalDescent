@@ -2,10 +2,10 @@ package me.shygars.commands;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractTargetPlayerCommand;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -15,10 +15,8 @@ import me.shygars.game.classes.PlayerClassNames;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-import java.util.Objects;
-
 public class GetPlayerClass extends AbstractTargetPlayerCommand {
-
+    public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     public GetPlayerClass() {
         super("getclass", "Get a player's class.");
     }
@@ -31,19 +29,24 @@ public class GetPlayerClass extends AbstractTargetPlayerCommand {
             @NonNullDecl PlayerRef playerRef,
             @NonNullDecl World world,
             @NonNullDecl Store<EntityStore> store) {
-        Player player = store.getComponent(targetRef, Player.getComponentType());
-        Player targetPlayer = store.getComponent(targetRef, Player.getComponentType());
+        PlayerRef targetPlayerRef = store.getComponent(targetRef, PlayerRef.getComponentType());
         PlayerClass playerClass = store.getComponent(targetRef, InfernalDescent.instance.getPlayerClassComponent());
         if (sourceRef != null) {
-            player = store.getComponent(sourceRef, Player.getComponentType());
+            playerRef = store.getComponent(sourceRef, PlayerRef.getComponentType());
         }
-        assert player != null;
-        assert targetPlayer != null;
+        if (playerRef == null) {
+            LOGGER.atInfo().log("playerRef problem");
+            return;
+        }
+        if (targetPlayerRef == null) {
+            LOGGER.atInfo().log("targetPlayerRef problem");
+            return;
+        }
         if (playerClass != null) {
-            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " is the " + PlayerClassNames.getClassName(playerClass.getCurrentClass())));
+            playerRef.sendMessage(Message.raw(targetPlayerRef.getUsername() + " is the " + PlayerClassNames.getClassName(playerClass.getCurrentClass())));
         }
         else {
-            player.sendMessage(Message.raw(targetPlayer.getDisplayName() + " do not have a class."));
+            playerRef.sendMessage(Message.raw(targetPlayerRef.getUsername() + " do not have a class."));
         }
     }
 }

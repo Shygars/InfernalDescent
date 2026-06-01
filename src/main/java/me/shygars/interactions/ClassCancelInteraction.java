@@ -10,7 +10,6 @@ import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
@@ -41,10 +40,10 @@ public class ClassCancelInteraction extends SimpleInstantInteraction {
         }
         Ref<EntityStore> ref = interactionContext.getEntity();
         Store<EntityStore> store = commandBuffer.getExternalData().getStore();
-        Player player = commandBuffer.getComponent(ref, Player.getComponentType());
-        if (player == null) {
+        PlayerRef playerRef = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
+        if (playerRef == null) {
             interactionContext.getState().state = InteractionState.Failed;
-            LOGGER.atInfo().log("Player is null");
+            LOGGER.atInfo().log("Player Ref is null");
             return;
         }
         PlayerClass playerClass = store.getComponent(ref, InfernalDescent.instance.getPlayerClassComponent());
@@ -89,6 +88,6 @@ public class ClassCancelInteraction extends SimpleInstantInteraction {
         ItemContainer armorContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-3)), ref, store);
         ItemContainer utilityContainer = ClassItemsDistribution.getItemContainer(Objects.requireNonNull(InventoryComponent.getComponentTypeById(-5)), ref, store);
         ClassItemsDistribution.removeClassItems(hotbarContainer, armorContainer, utilityContainer);
-        player.sendMessage(Message.raw("Class removed."));
+        playerRef.sendMessage(Message.raw("Class removed."));
     }
 }

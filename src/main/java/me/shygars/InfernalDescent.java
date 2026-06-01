@@ -9,7 +9,6 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Int
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.core.util.Config;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import lombok.Getter;
 import me.shygars.actions.*;
@@ -17,10 +16,7 @@ import me.shygars.actions.manon.*;
 import me.shygars.actions.zolahva.BuilderActionSetForcedWeather;
 import me.shygars.commands.*;
 import me.shygars.components.*;
-import me.shygars.config.BlockBreakConfig;
 import me.shygars.interactions.*;
-import me.shygars.systems.ItemsTradeSystem;
-import me.shygars.systems.DropBlocker;
 import me.shygars.game.SlotLock;
 import me.shygars.systems.*;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -28,7 +24,6 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 public class InfernalDescent extends JavaPlugin {
     public static InfernalDescent instance;
     private PacketFilter inboundFilter;
-    private final Config<BlockBreakConfig> config;
 
     @Getter
     private ComponentType<EntityStore, IsPlayer> isPlayer;
@@ -43,15 +38,11 @@ public class InfernalDescent extends JavaPlugin {
 
     public InfernalDescent(@NonNullDecl JavaPluginInit init) {
         super(init);
-        config = this.withConfig("BlockBreakConfig", BlockBreakConfig.CODEC);
         instance = this;
     }
 
     @Override
     protected void setup() {
-        // Save Config
-        this.config.save();
-
         //Initialize Commands
         CommandRegistry commandRegistry = this.getCommandRegistry();
         commandRegistry.registerCommand(new ToggleIsPlayer());
@@ -117,7 +108,6 @@ public class InfernalDescent extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new PlayerClassStatsSystem());
         this.getEntityStoreRegistry().registerSystem(new HUDTickRefresh());
         this.getEntityStoreRegistry().registerSystem(new LuckEffectSystem());
-        this.getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(config));
 
         //Initialize Packet Handlers
         SlotLock.registerPacketCounters();

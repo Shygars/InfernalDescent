@@ -90,6 +90,26 @@ Group {
         }
       }
     }
+    Group #NegativeStrength {
+      LayoutMode: Center;
+      Padding: (Horizontal: 6, Top: 12, Bottom: 6);
+      Group #NegativeStrengthIconGroup {
+        LayoutMode: Top;
+        Anchor: (Right: 12);
+        AssetImage #NegativeStrengthIcon {
+          Anchor: (Width: 32, Height: 32);
+          AssetPath: "UI/Custom/StatsUp/negative_strength_stats_up_icon.png";
+        }
+      }
+      Group #NegativeStrengthBarBackground {
+        Anchor: (Width: 131, Height: 12);
+        Background: "StatsUp/stats_up_bar_background.png";
+        ProgressBar #NegativeStrengthBar {
+          Anchor: (Width: 131, Height: 12);
+          BarTexturePath: "StatsUp/negative_strength_stats_up_bar.png";
+        }
+      }
+    }
     Group #Stamina {
       LayoutMode: Center;
       Padding: (Horizontal: 6, Top: 6, Bottom: 12);

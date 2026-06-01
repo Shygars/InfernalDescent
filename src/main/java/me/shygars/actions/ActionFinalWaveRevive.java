@@ -2,9 +2,8 @@ package me.shygars.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Transform;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
@@ -18,6 +17,7 @@ import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import me.shygars.InfernalDescent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -43,17 +43,17 @@ public class ActionFinalWaveRevive extends ActionBase {
                     Teleport teleport;
                     Vector3d particlePos;
                     if (world.getName().equals("TheDeadLands")) {
-                        teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(revivePosDeadLands, new Vector3f(0, 0)));
+                        teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(revivePosDeadLands, new Rotation3f(0, 0, 0)));
                         SoundUtil.playSoundEvent3d(SoundEvent.getAssetMap().getIndex("SFX_Avatar_Powers_Enable_Local"), SoundCategory.SFX, revivePosDeadLands, storePlayer);
                         particlePos = new Vector3d(revivePosDeadLands.x, revivePosDeadLands.y + 1, revivePosDeadLands.z);
                     }
                     else if (world.getName().equals("LavaSprings")) {
-                        teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(revivePosLavaSprings, new Vector3f(0, 0)));
+                        teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(revivePosLavaSprings, new Rotation3f(0, 0, 0)));
                         SoundUtil.playSoundEvent3d(SoundEvent.getAssetMap().getIndex("SFX_Avatar_Powers_Enable_Local"), SoundCategory.SFX, revivePosLavaSprings, storePlayer);
                         particlePos = new Vector3d(revivePosLavaSprings.x, revivePosLavaSprings.y + 1, revivePosLavaSprings.z);
                     }
                     else {
-                        teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(revivePosInfernalCastle, new Vector3f(0, 0)));
+                        teleport = Teleport.createForPlayer(store.getExternalData().getWorld(), new Transform(revivePosInfernalCastle, new Rotation3f(0, 0, 0)));
                         SoundUtil.playSoundEvent3d(SoundEvent.getAssetMap().getIndex("SFX_Avatar_Powers_Enable_Local"), SoundCategory.SFX, revivePosInfernalCastle, storePlayer);
                         particlePos = new Vector3d(revivePosInfernalCastle.x, revivePosInfernalCastle.y + 1, revivePosInfernalCastle.z);
                     }
